@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#102b2b">
+  <meta name="description" content="Campus Trails — discover student trips, find travel companions, and explore together.">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <title>Campus Trails | Your Campus. Your Tribe. Your Next Adventure.</title>
+  <style>
+    :root{--ink:#122b2b;--muted:#647675;--cream:#f5f5ef;--paper:#fff;--green:#c9ef72;--line:#e4e8df;--orange:#f2a56b}
+    *{box-sizing:border-box} body{margin:0;background:var(--cream);color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+    button,input,select,textarea{font:inherit} button{cursor:pointer}
+    .top{background:#102b2b;color:white;padding:18px max(18px,calc((100vw - 1080px)/2));position:sticky;top:0;z-index:5;display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .brand{font-weight:900;letter-spacing:.08em;font-size:17px}.brand span{color:var(--green)}
+    .nav{display:flex;gap:7px;flex-wrap:wrap}.nav button{border:0;background:transparent;color:#d9e5de;padding:9px 11px;border-radius:20px;font-size:13px}.nav button.active,.nav button:hover{background:#294644;color:white}
+    .install{background:var(--green)!important;color:#17302d!important;font-weight:800!important}
+    main{max-width:1080px;margin:auto;padding:22px 18px 90px}
+    .hero{background:linear-gradient(115deg,#102b2b 0%,#1e4943 62%,#466d54 100%);color:white;border-radius:28px;padding:30px 24px;overflow:hidden;position:relative;min-height:300px}
+    .hero:after{content:"";position:absolute;width:260px;height:260px;border-radius:50%;right:-55px;top:30px;border:1px solid #ffffff25;box-shadow:0 0 0 25px #ffffff0c,0 0 0 55px #ffffff08}
+    .eyebrow{color:var(--green);font-size:11px;letter-spacing:.16em;font-weight:800;text-transform:uppercase}
+    h1{font-size:clamp(34px,7vw,58px);line-height:1.02;max-width:620px;margin:13px 0}
+    .hero p{color:#d1dfd7;max-width:490px;line-height:1.6;font-size:15px}
+    .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+    .btn{border:0;border-radius:999px;padding:12px 17px;font-weight:800;background:var(--green);color:#18332e}
+    .btn.secondary{background:#ffffff18;color:white;border:1px solid #ffffff40}
+    .section-head{display:flex;justify-content:space-between;align-items:end;gap:12px;margin:30px 0 14px}
+    h2{font-size:23px;margin:0}.muted{color:var(--muted);font-size:13px}
+    .filters{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 18px}
+    .filters input,.filters select,.field input,.field select,.field textarea{border:1px solid var(--line);border-radius:13px;padding:12px;background:white;color:var(--ink);width:100%;outline:none}
+    .filters input{flex:1;min-width:180px}.filters select{width:auto;min-width:135px}
+    .grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}
+    .trip{background:white;border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:0 5px 20px #203d3210}
+    .trip-art{height:145px;display:flex;align-items:end;padding:14px;color:white;font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;background:linear-gradient(140deg,#1e4745,#76946d)}
+    .trip:nth-child(2) .trip-art{background:linear-gradient(140deg,#263c4a,#9c8769)}
+    .trip:nth-child(3) .trip-art{background:linear-gradient(140deg,#365b49,#c1a66c)}
+    .trip:nth-child(4) .trip-art{background:linear-gradient(140deg,#304e5a,#a6b7a0)}
+    .trip:nth-child(5) .trip-art{background:linear-gradient(140deg,#4b5545,#d49c65)}
+    .trip:nth-child(6) .trip-art{background:linear-gradient(140deg,#31434b,#6f9a9a)}
+    .trip-body{padding:15px}.trip h3{margin:0 0 5px;font-size:18px}.trip-meta{color:var(--muted);font-size:12px;line-height:1.7}
+    .trip-foot{display:flex;justify-content:space-between;align-items:center;margin-top:13px;gap:8px}.price{font-weight:900}.small-btn{border:0;border-radius:20px;padding:9px 12px;background:#eaf4d6;color:#203b2e;font-weight:800;font-size:12px}
+    .panel{background:white;border:1px solid var(--line);border-radius:22px;padding:20px;margin-top:20px}
+    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{display:flex;flex-direction:column;gap:6px}.field label{font-size:12px;font-weight:800;color:#405854}.field.full{grid-column:1/-1}
+    .field textarea{min-height:90px;resize:vertical}
+    .notice{background:#f1f5e8;border:1px solid #dce8c8;border-radius:13px;padding:12px;color:#425342;font-size:12px;line-height:1.5;margin-top:12px}
+    .empty{padding:25px;text-align:center;color:var(--muted);background:white;border-radius:16px}
+    .hidden{display:none!important}
+    .modal{position:fixed;inset:0;background:#0b1e1dcc;display:flex;align-items:center;justify-content:center;padding:18px;z-index:10}
+    .modal-card{width:min(100%,440px);background:white;border-radius:22px;padding:22px;max-height:90vh;overflow:auto}
+    .modal-top{display:flex;justify-content:space-between;align-items:center}.close{border:0;background:#edf0e9;border-radius:50%;width:34px;height:34px;font-size:20px}
+    footer{max-width:1080px;margin:auto;padding:0 18px 30px;color:var(--muted);font-size:12px}
+    .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#142f2b;color:white;padding:12px 17px;border-radius:30px;z-index:20;box-shadow:0 6px 20px #0003;font-size:13px;max-width:90%;text-align:center}
+    @media(max-width:760px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.nav button{padding:8px}.top{align-items:flex-start;flex-direction:column}.hero{min-height:280px}}
+    @media(max-width:500px){.grid{grid-template-columns:1fr}.trip-art{height:125px}.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.hero{padding:26px 20px}main{padding-top:15px}}
+  </style>
+</head>
+<body>
+<header class="top">
+  <div class="brand">CAMPUS <span>TRAILS</span></div>
+  <nav class="nav" aria-label="Main navigation">
+    <button class="active" data-page="home">Explore</button>
+    <button data-page="create">Create trip</button>
+    <button data-page="about">Community</button>
+    <button id="installBtn" class="install hidden">Install app</button>
+  </nav>
+</header>
+<main>
+  <section id="homePage">
+    <div class="hero">
+      <div class="eyebrow">Student travel community</div>
+      <h1>Your campus.<br>Your tribe.<br>Your next adventure.</h1>
+      <p>Discover student-friendly trips, meet fellow explorers, and plan your next mountain escape together.</p>
+      <div class="actions">
+        <button class="btn" onclick="document.getElementById('tripSection').scrollIntoView({behavior:'smooth'})">Explore trips ↓</button>
+        <button class="btn secondary" onclick="showPage('create')">Create a trip +</button>
+      </div>
+    </div>
+    <div class="section-head" id="tripSection">
+      <div><h2>Find your next trip</h2><div class="muted">A first look at adventures students can explore</div></div>
+      <div class="muted" id="tripCount">6 trips</div>
+    </div>
+    <div class="filters">
+      <input id="searchInput" placeholder="Search destination or state..." aria-label="Search trips">
+      <select id="typeFilter" aria-label="Filter trip type"><option value="all">All trip types</option><option>Trek</option><option>Road trip</option><option>Camping</option></select>
+      <select id="budgetFilter" aria-label="Filter budget"><option value="all">Any budget</option><option value="5000">Under ₹5,000</option><option value="8000">Under ₹8,000</option></select>
+    </div>
+    <div class="grid" id="tripGrid"></div>
+    <div class="notice">Demo version: sample destinations and budgets are indicative only. No trip shown here is currently confirmed or bookable.</div>
+  </section>
+
+  <section id="createPage" class="hidden">
+    <div class="section-head"><div><h2>Create a student trip</h2><div class="muted">Share your idea with the Campus Trails community</div></div></div>
+    <div class="panel">
+      <form id="createForm" class="form-grid">
+        <div class="field"><label for="tripName">Trip / destination name *</label><input id="tripName" required placeholder="e.g. Weekend trek"></div>
+        <div class="field"><label for="tripPlace">State / region *</label><input id="tripPlace" required placeholder="e.g. Uttarakhand"></div>
+        <div class="field"><label for="tripType">Trip type *</label><select id="tripType" required><option value="">Select</option><option>Trek</option><option>Road trip</option><option>Camping</option><option>City / cultural trip</option></select></div>
+        <div class="field"><label for="tripBudget">Estimated budget per person (₹) *</label><input id="tripBudget" type="number" min="0" required placeholder="e.g. 5000"></div>
+        <div class="field"><label for="tripDuration">Duration *</label><input id="tripDuration" required placeholder="e.g. 3 days"></div>
+        <div class="field"><label for="tripDate">Tentative start date</label><input id="tripDate" type="date"></div>
+        <div class="field"><label for="organizer">Organizer name *</label><input id="organizer" required placeholder="Your name"></div>
+        <div class="field"><label for="college">College *</label><input id="college" required placeholder="College / university"></div>
+        <div class="field full"><label for="tripNotes">Trip details</label><textarea id="tripNotes" placeholder="What should other students know?"></textarea></div>
+        <div class="field full"><button class="btn" type="submit">Post trip idea</button></div>
+      </form>
+      <div class="notice">Safety note: Posting here saves the trip only on this device in this demo. Do not publish personal phone numbers or collect payments from strangers. Confirm operators, route conditions, permissions and safety arrangements before any real trip.</div>
+    </div>
+  </section>
+
+  <section id="aboutPage" class="hidden">
+    <div class="section-head"><div><h2>Built for student explorers</h2><div class="muted">A place to discover, connect and plan responsibly</div></div></div>
+    <div class="panel">
+      <h3>What is Campus Trails?</h3>
+      <p class="muted" style="line-height:1.7">Campus Trails is an early prototype for a student travel community. The idea is to help students discover trips, find travel companions from other colleges, and share trip plans.</p>
+      <h3>Community guidelines</h3>
+      <ul class="muted" style="line-height:1.9">
+        <li>Be respectful to every student and organizer.</li>
+        <li>Verify trip organizers and travel operators independently.</li>
+        <li>Share only the personal information needed.</li>
+        <li>Never send money to an unverified person.</li>
+        <li>For minors, involve a parent or guardian and follow college rules.</li>
+        <li>Use qualified guides and follow local safety advisories for treks.</li>
+      </ul>
+      <div class="notice">This prototype does not provide identity verification, live group chat, payments, or confirmed bookings yet.</div>
+    </div>
+  </section>
+</main>
+<footer>© 2026 Campus Trails · Early prototype · Explore responsibly.</footer>
+
+<div id="modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal-card">
+    <div class="modal-top"><h2 id="modalTitle">Trip details</h2><button class="close" onclick="closeModal()" aria-label="Close">×</button></div>
+    <div id="modalContent"></div>
+  </div>
+</div>
+<div id="toast" class="toast hidden" role="status"></div>
+
+<script>
+const starterTrips = [
+ {id:"t1",name:"Kedarkantha Trek",place:"Uttarakhand",type:"Trek",budget:6500,duration:"5–6 days",tag:"Snow trail",desc:"A popular Himalayan trekking destination. Check seasonal conditions and use a qualified local operator."},
+ {id:"t2",name:"Spiti Valley Explorer",place:"Himachal Pradesh",type:"Road trip",budget:8500,duration:"6–7 days",tag:"High mountains",desc:"A high-altitude road journey. Route access, acclimatization and weather need careful planning."},
+ {id:"t3",name:"Valley of Flowers",place:"Uttarakhand",type:"Trek",budget:7000,duration:"5–6 days",tag:"Nature trail",desc:"A seasonal national-park trek. Check official opening dates, permits and local guidance."},
+ {id:"t4",name:"Hampta Pass",place:"Himachal Pradesh",type:"Trek",budget:8000,duration:"5–6 days",tag:"Mountain crossing",desc:"A guided high-altitude trek that requires suitable fitness, equipment and weather checks."},
+ {id:"t5",name:"Rishikesh Weekend",place:"Uttarakhand",type:"Camping",budget:4500,duration:"2–3 days",tag:"River & hills",desc:"A short trip idea. Use reputable activity providers and follow local river-safety rules."},
+ {id:"t6",name:"Udaipur Heritage Trail",place:"Rajasthan",type:"City / cultural trip",budget:3000,duration:"2 days",tag:"Culture",desc:"Explore lakes, heritage sites and local food with a planned group itinerary."}
+];
+let trips = [...starterTrips];
+try { const saved=JSON.parse(localStorage.getItem("ct_user_trips")||"[]"); trips=[...saved,...starterTrips]; } catch(e){}
+const grid=document.getElementById("tripGrid");
+function rupee(n){return "₹"+Number(n).toLocaleString("en-IN")}
+function renderTrips(){
+ const q=document.getElementById("searchInput").value.toLowerCase();
+ const type=document.getElementById("typeFilter").value;
+ const budget=document.getElementById("budgetFilter").value;
+ const filtered=trips.filter(t=>(t.name+" "+t.place).toLowerCase().includes(q)&&(type==="all"||t.type===type)&&(budget==="all"||t.budget<=Number(budget)));
+ document.getElementById("tripCount").textContent=filtered.length+" trips";
+ grid.innerHTML=filtered.length?filtered.map(t=>`<article class="trip"><div class="trip-art">${escapeHtml(t.tag||t.type)}</div><div class="trip-body"><h3>${escapeHtml(t.name)}</h3><div class="trip-meta">${escapeHtml(t.place)} · ${escapeHtml(t.duration)}<br>${escapeHtml(t.type)}</div><div class="trip-foot"><span class="price">${rupee(t.budget)} <small class="muted">est.</small></span><button class="small-btn" onclick="openTrip('${t.id}')">View trip</button></div></div></article>`).join(""):'<div class="empty" style="grid-column:1/-1">No trips match your search yet.</div>';
+}
+function escapeHtml(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+function openTrip(id){
+ const t=trips.find(x=>x.id===id); if(!t)return;
+ document.getElementById("modalTitle").textContent=t.name;
+ document.getElementById("modalContent").innerHTML=`<p class="muted">${escapeHtml(t.place)} · ${escapeHtml(t.duration)} · ${escapeHtml(t.type)}</p><h2>${rupee(t.budget)} <small class="muted">estimated per person</small></h2><p style="line-height:1.6">${escapeHtml(t.desc||t.notes||"Trip idea shared by a community member.")}</p><div class="notice">This is an expression-of-interest demo, not a booking. Your request is saved only on this device.</div><form id="joinForm" style="display:grid;gap:10px;margin-top:15px"><input id="joinName" required placeholder="Your name" style="padding:12px;border:1px solid var(--line);border-radius:12px"><input id="joinCollege" required placeholder="Your college" style="padding:12px;border:1px solid var(--line);border-radius:12px"><button class="btn">I'm interested</button></form>`;
+ document.getElementById("modal").classList.remove("hidden");
+ document.getElementById("joinForm").addEventListener("submit",e=>{e.preventDefault();const requests=JSON.parse(localStorage.getItem("ct_interest")||"[]");requests.push({trip:t.name,name:document.getElementById("joinName").value,college:document.getElementById("joinCollege").value});localStorage.setItem("ct_interest",JSON.stringify(requests));closeModal();toast("Interest saved on this device. It has not been sent to an organizer.");});
+}
+function closeModal(){document.getElementById("modal").classList.add("hidden")}
+function toast(msg){const el=document.getElementById("toast");el.textContent=msg;el.classList.remove("hidden");setTimeout(()=>el.classList.add("hidden"),3200)}
+function showPage(page){
+ ["home","create","about"].forEach(p=>document.getElementById(p+"Page").classList.toggle("hidden",p!==page));
+ document.querySelectorAll(".nav button[data-page]").forEach(b=>b.classList.toggle("active",b.dataset.page===page));
+ window.scrollTo({top:0,behavior:"smooth"});
+}
+document.querySelectorAll(".nav button[data-page]").forEach(b=>b.addEventListener("click",()=>showPage(b.dataset.page)));
+["searchInput","typeFilter","budgetFilter"].forEach(id=>document.getElementById(id).addEventListener("input",renderTrips));
+document.getElementById("createForm").addEventListener("submit",e=>{
+ e.preventDefault();
+ const t={id:"u"+Date.now(),name:document.getElementById("tripName").value,place:document.getElementById("tripPlace").value,type:document.getElementById("tripType").value,budget:Number(document.getElementById("tripBudget").value),duration:document.getElementById("tripDuration").value,tag:"Community idea",desc:document.getElementById("tripNotes").value||"Trip idea shared by a student organizer."};
+ const saved=JSON.parse(localStorage.getItem("ct_user_trips")||"[]");saved.unshift(t);localStorage.setItem("ct_user_trips",JSON.stringify(saved));trips.unshift(t);e.target.reset();renderTrips();showPage("home");toast("Trip idea added on this device.");
+});
+renderTrips();
+let deferredPrompt;
+window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferredPrompt=e;document.getElementById("installBtn").classList.remove("hidden")});
+document.getElementById("installBtn").addEventListener("click",async()=>{if(!deferredPrompt){toast("Use your browser menu and choose Add to Home screen.");return;}deferredPrompt.prompt();await deferredPrompt.userChoice;deferredPrompt=null;});
+if("serviceWorker" in navigator && location.protocol.startsWith("http")) navigator.serviceWorker.register("./sw.js").catch(()=>{});
+</script>
+</body>
+</html>

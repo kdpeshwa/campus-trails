@@ -1,0 +1,17 @@
+{
+  "name": "Campus Trails",
+  "short_name": "Campus Trails",
+  "description": "Student travel community",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f5f5ef",
+  "theme_color": "#102b2b",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
